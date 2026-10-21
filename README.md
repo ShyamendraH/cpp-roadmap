@@ -11,19 +11,21 @@ The plan emphasizes small, verifiable milestones rather than long assignments. E
 
 ## Documentation
 
-| Document | Purpose |
-|---|---|
-| [C++ Systems Builder Roadmap](cpp_systems_builder_roadmap.md) | The 40-week plan with 46 milestones, timelines, deliverables, dependencies, and acceptance criteria. |
-| [C++ Coaching Operation Manual](cpp_coaching_operation_manual.md) | The day-to-day workflow for continuing, recovering after interruptions, debugging blockers, and completing milestones reliably. |
+| Document                                             | Purpose                                                                                                                                       |
+| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| [C++ Systems Builder Roadmap](Roadmap.md)            | The 40-week plan with 46 milestones, timelines, deliverables, dependencies, and acceptance criteria.                                          |
+| [C++ Coaching Operation Manual](operation_manual.md) | The day-to-day workflow for continuing, recovering after interruptions, debugging blockers, and completing milestones reliably.               |
+| [Detailed Checklist](checklist.md)                   | A reusable verification checklist for setup, each milestone, C++ fluency, `tinycore`, all three products, integration, and release readiness. |
 
 ## How to use this repository
 
-1. Read the [roadmap](cpp_systems_builder_roadmap.md) to understand the overall sequence.
-2. Read the [operation manual](cpp_coaching_operation_manual.md) and create a `PROGRESS.md` file at the repository root using its template.
-3. Start with **Week 1, Milestone 01: Argument Inspector**.
-4. Work on one milestone at a time. Verify its acceptance criteria and commit the result before moving on.
-5. Use the weekly buffer and consolidation weeks for catch-up, testing, and recovery. Do not skip correctness gates just to preserve the calendar.
-6. Keep optional ideas in a backlog instead of expanding the active milestone.
+1. Read the [roadmap](Roadmap.md) to understand the overall sequence.
+2. Read the [operation manual](operation_manual.md) and create a `PROGRESS.md` file at the repository root using its template.
+3. Use the [detailed checklist](checklist.md) as a verification ledger; record milestone-specific evidence in `PROGRESS.md`.
+4. Start with **Week 1, Milestone 01: Argument Inspector**.
+5. Work on one milestone at a time. Verify its acceptance criteria and commit the result before moving on.
+6. Use the weekly buffer and consolidation weeks for catch-up, testing, and recovery. Do not skip correctness gates just to preserve the calendar.
+7. Keep optional ideas in a backlog instead of expanding the active milestone.
 
 ## Planning assumptions
 
@@ -53,4 +55,4 @@ Do not begin by implementing the entire standard library or designing every futu
 
 ---
 
-**Recommended starting point:** [Roadmap — Week 1, Milestone 01](cpp_systems_builder_roadmap.md#phase-i--re-entry-and-development-habits-weeks-14)
+**Recommended starting point:** [Roadmap — Week 1, Milestone 01](Roadmap.md#phase-i--re-entry-and-development-habits-weeks-14)
