@@ -11,3 +11,6 @@ compile_commands.json
 .idea/
 *.swp
 *~
+
+# Agent Stuff
+.commandcode
