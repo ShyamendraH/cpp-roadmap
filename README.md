@@ -1,58 +1,48 @@
 # C++ Systems Builder
 
-A project-driven roadmap for rebuilding C++ fluency and using it to build three substantial systems projects:
+A 40-week plan to rebuild C++ fluency by building real systems:
 
-- **`forge`** — a C/C++ compilation and build CLI
+- **`tinycore`** — low-level components you implement yourself to learn what the standard library does
+- **`srcscope`** — a source-inspection CLI (Phase I warm-up)
+- **`forge`** — a C/C++ build CLI
 - **`termkit`** — a reusable terminal UI (TUI) library
-- **`httpkit`** — a reusable HTTP server library
-- **`tinycore`** — a learning-oriented collection of low-level components developed alongside the products
+- **`httpkit`** — a reusable HTTP/1.1 server library
 
-The plan emphasizes small, verifiable milestones rather than long assignments. Each stage produces a working result, introduces only the concepts needed next, and includes acceptance criteria so progress is measurable.
+Every milestone produces a working result with explicit acceptance criteria, so progress is verifiable rather than assumed.
 
 ## Documentation
 
-| Document                                             | Purpose                                                                                                                                       |
-| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| [C++ Systems Builder Roadmap](Roadmap.md)            | The 40-week plan with 46 milestones, timelines, deliverables, dependencies, and acceptance criteria.                                          |
-| [C++ Coaching Operation Manual](operation_manual.md) | The day-to-day workflow for continuing, recovering after interruptions, debugging blockers, and completing milestones reliably.               |
-| [Detailed Checklist](checklist.md)                   | A reusable verification checklist for setup, each milestone, C++ fluency, `tinycore`, all three products, integration, and release readiness. |
+| Document | Purpose |
+|----------|---------|
+| [Roadmap](Roadmap.md) | The 40-week plan: 46 milestones with deliverables and acceptance criteria |
+| [Operation Manual](operation_manual.md) | Session workflow, progress tracking, and recovery procedures |
+| [Checklist](checklist.md) | Verification ledger and definition of done |
+| [Progress template](PROGRESS.template.md) | Starter file: copy to `PROGRESS.md` and track your own progress |
 
 ## How to use this repository
 
-1. Read the [roadmap](Roadmap.md) to understand the overall sequence.
-2. Read the [operation manual](operation_manual.md) and create a `PROGRESS.md` file at the repository root using its template.
-3. Use the [detailed checklist](checklist.md) as a verification ledger; record milestone-specific evidence in `PROGRESS.md`.
-4. Start with **Week 1, Milestone 01: Argument Inspector**.
-5. Work on one milestone at a time. Verify its acceptance criteria and commit the result before moving on.
-6. Use the weekly buffer and consolidation weeks for catch-up, testing, and recovery. Do not skip correctness gates just to preserve the calendar.
-7. Keep optional ideas in a backlog instead of expanding the active milestone.
+1. Skim the [roadmap](Roadmap.md) once to see the sequence.
+2. Copy [`PROGRESS.template.md`](PROGRESS.template.md) to `PROGRESS.md` at the repo root.
+3. Start with [Week 1, Milestone 01](Roadmap.md#week-1--milestone-01-argument-inspector).
+4. Work one milestone at a time: meet its acceptance criteria, then commit.
+5. Tick [checklist](checklist.md) items only when you can point to evidence.
+6. End every session by recording the next action in `PROGRESS.md`.
 
-## Planning assumptions
+## Scope
 
-- **Timeline:** 40 weeks, with explicit buffer and consolidation capacity.
-- **Weekly rhythm:** five focused work sessions, one flexible buffer/review day, and one rest day.
-- **Language:** C++20.
-- **Initial platform:** Linux/POSIX.
-- **Build and test tools:** CMake and CTest.
-- **Priority:** correctness, understanding, useful software, and repeatable verification over feature count.
+- **Timeline:** 40 weeks — 5 focused sessions + 1 buffer day + 1 rest day per week (about 10–15 focused hours).
+- **Language:** C++20 with GCC or Clang.
+- **Platform:** Linux/POSIX first; portability is a later extension.
+- **Build and test:** CMake and CTest.
 
-The 40-week schedule is a planning baseline, not a guarantee that every feature will be production-ready by the deadline. If work slips, preserve the dependency order and acceptance criteria, reduce scope where appropriate, and move the end date when necessary.
-
-## Project principles
-
-- Learn concepts when a project needs them, then apply them immediately.
-- Build `tinycore` components to understand their internals; use the C++ standard library in product code by default unless a custom component has demonstrated a concrete advantage.
-- Test normal behavior, edge cases, and failure paths.
-- Keep resource ownership and cleanup explicit.
-- Treat production readiness as something demonstrated through testing, resource limits, security checks, documentation, and operational behavior—not merely a working demo.
-- Leave a clear next action at the end of every session so work can resume after interruptions.
+The 40-week schedule is a planning baseline, not a deadline. If a milestone slips, reduce scope and move the end date — never skip acceptance criteria.
 
 ## First milestone
 
-Start small: build the **Argument Inspector**, a C++ program that prints command-line arguments and the current working directory. Compile it, test it with zero and multiple arguments, commit it, and record the next action in `PROGRESS.md`.
+Build the **Argument Inspector**: print `argc`, every argument, and the current working directory. Compile it, run it with zero and several arguments, commit, and write the next action in `PROGRESS.md`.
 
-Do not begin by implementing the entire standard library or designing every future project. Build one working slice, verify it, and continue.
+Don't build the standard library or design future projects yet. Get one working slice done, verify it, and move on.
 
 ---
 
-**Recommended starting point:** [Roadmap — Week 1, Milestone 01](Roadmap.md#phase-i--re-entry-and-development-habits-weeks-14)
+**Start here:** [Roadmap — Week 1, Milestone 01: Argument Inspector](Roadmap.md#week-1--milestone-01-argument-inspector)

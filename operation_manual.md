@@ -1,191 +1,115 @@
-# C++ Coaching Operation Manual
+# Operation Manual
 
-## How to continue, recover, and complete the 40-week roadmap
+How to run sessions, track progress, and recover when the plan and reality disagree. Read it once before Week 1, then return to it whenever something breaks down.
 
-**Purpose:** This document governs how to execute the roadmap when
-motivation, available time, understanding, or technical progress varies. Keep it beside the roadmap and update it as the source of truth for your current state.
-
----
-
-## 1. Operating principles
-
-1.  **The roadmap is a sequence of verified capabilities, not a race.**
-    A calendar target is useful, but correctness gates are not skipped
-    to protect a date.
-2.  **Always leave a working state.** End a session with code that
-    builds, a failing test that is understood, or a written next action.
-    Avoid leaving an opaque half-finished refactor.
-3.  **One active milestone at a time.** Side ideas go into a backlog;
-    they do not displace the current milestone without an explicit
-    decision.
-4.  **Learn just in time.** Learn a concept when the current
-    implementation needs it, then apply it immediately.
-5.  **`tinycore` must earn reuse.** Implementing a container is a
-    learning exercise. Product code should use the standard library
-    unless the custom implementation has demonstrated correctness and a
-    real reason to be used.
-6.  **No shame-based recovery.** A missed day is ordinary schedule
-    variance. Resume from the written next action; do not restart the
-    phase or punish yourself with marathon sessions.
-7.  **A working demo is not production readiness.** Security, resource
-    limits, tests, failure behavior, documentation, and measured
-    operation are separate acceptance requirements.
+- Plan and milestones: [Roadmap](Roadmap.md)
+- Verification ledger: [Checklist](checklist.md)
+- Rolling state: `PROGRESS.md` (copy [`PROGRESS.template.md`](PROGRESS.template.md))
 
 ---
 
-## 2. Source of truth and progress record
+## 1. Working principles
 
-Maintain one file at the repository root named `PROGRESS.md`. Update it at the end of each session and milestone.
+1. **One milestone at a time.** New ideas go to `BACKLOG.md`; they enter the active plan only by an explicit decision.
+2. **Always leave a working state.** End every session with code that builds, a failing test you understand, or a written next action — never an unexplained half-finished refactor.
+3. **Learn just in time.** Learn a concept when the current milestone needs it, then apply it immediately.
+4. **`tinycore` must earn reuse.** Custom components exist to teach. Product code uses the standard library unless the custom component has tests and a demonstrated reason.
+5. **Recovery is routine.** A missed day is ordinary schedule variance. Resume from the written next action; don't restart the phase or repay time with marathon sessions.
+6. **A working demo is not production readiness.** Security, resource limits, failure behavior, documentation, and measured operation are separate acceptance requirements.
 
-Use this template:
+## 2. Progress record: `PROGRESS.md`
 
-```markdown
-# Current Progress
+Copy [`PROGRESS.template.md`](PROGRESS.template.md) to the repository root and update it at the end of every session. It holds three things: your current state, a session log, and one record per milestone. It is the only file you must read when returning after time away.
 
-- Current roadmap week:
-- Current milestone:
-- Status: not started / active / blocked / done
-- Last verified commit:
-- Last known-good build command:
-- Last known-good test command:
-- Current blocker:
-- Next physical action (must be small and concrete):
-- Time available before next session:
-- Deferred ideas:
-- Recovery debt (if any):
-```
+**Git checkpoints**
 
-**Good next action:** “Add a test for `Vector<int>::reserve(0)` and run
-CTest.”
+- Commit when a milestone's acceptance criteria pass.
+- Make small commits during implementation whenever they leave the repository in a useful state.
+- Branch or checkpoint before a risky refactor.
+- Keep build directories and local secrets out of version control.
+- Record the compiler version and build commands in the README.
 
-**Bad next action:** “Work on Vector,” “learn templates,” or “fix
-everything.”
+## 3. The work session
 
-The progress record should let you return after a week away without rereading the entire chat or reverse-engineering your own intentions.
+A default 2–3 hour session (shorten it on busy days):
 
-### Git checkpoints
+| Segment | Duration | Action |
+|:--------|---------:|:-------|
+| Re-entry | 5–10 min | Read `PROGRESS.md`; run the last build/test command |
+| Focus block 1 | 35–50 min | Implement one narrow behavior |
+| Break | 5–10 min | Step away from the screen |
+| Focus block 2 | 35–50 min | Add tests or complete the behavior |
+| Verification | 15–25 min | Build, test, inspect output, reproduce edge cases |
+| Handoff | 5 min | Record the result, blocker, and next action |
 
-- Commit when a milestone’s acceptance criteria pass.
-- Use small descriptive commits during implementation when they leave
-  the repository in a useful state.
-- Before risky refactors, create a branch or a checkpoint commit.
-- Keep generated build directories and local secrets out of version
-  control.
-- Record compiler version and important build commands in the README or
-  project docs.
+Never spend the first hour deciding what to do — the next action is already in `PROGRESS.md`.
 
----
+**The 20-minute minimum (bad days)**
 
-## 3. The normal work session
+1. Read the next action.
+2. Run the existing build and tests.
+3. Make one small improvement, or write a test that pins down the next bug.
+4. Record the next action.
 
-For a 2–3 hour session, use this structure as a default. Shorten it on busy days.
+Continuity is the win; a short session does not need to produce a feature.
 
-| Segment       | Typical duration | Action                                              |
-|:--------------|-----------------:|:----------------------------------------------------|
-| Re-entry      |         5–10 min | Read `PROGRESS.md`, run the last build/test command |
-| Focus block 1 |        35–50 min | Implement one narrow behavior                       |
-| Break         |         5–10 min | Step away from the screen                           |
-| Focus block 2 |        35–50 min | Add tests or complete the behavior                  |
-| Verification  |        15–25 min | Build, test, inspect output, reproduce edge cases   |
-| Handoff note  |            5 min | Record result, blocker, and next action             |
+**Busy days:** with less than 20 minutes available, skip the session. Don't turn the next day into a double shift — use the buffer day and continue normally.
 
-Do not spend the first hour deciding what to do. The next action should already be in `PROGRESS.md`.
-
-### The 20-minute minimum on bad days
-
-If energy or time is poor, do only this:
-
-1.  Open the repository and read the next action. 2.  Run the existing tests/build. 3.  Make one small improvement, or write a test that clarifies the next
-    bug.
-4.  Record the next action.
-
-A 20-minute session counts as maintaining continuity. It does not need to produce a large feature.
-
-### Busy-day rule
-
-If you have less than 20 minutes or are genuinely unavailable, skip the session. Do not turn the next day into a double shift. Use the weekly buffer day if needed and continue normally.
-
----
-
-## 4. Weekly planning and schedule protection
-
-The roadmap assumes five normal work sessions, one buffer/review day, and one full rest day each week.
+## 4. The weekly rhythm
 
 At the start of the week:
 
-1.  Read the current milestone’s acceptance criteria. 2.  Split the work into three to five small tasks. 3.  Identify one likely failure mode and write a test for it. 4.  Decide what you will deliberately *not* build this week. 5.  Reserve the buffer day; do not pre-fill it with extra scope.
+1. Read the current milestone's acceptance criteria.
+2. Split the work into 3–5 tasks that each fit one session.
+3. Pick one likely failure mode and plan a test for it.
+4. Decide what you will deliberately *not* build this week.
+5. Keep the buffer day empty; don't pre-fill it with scope.
 
-At the end of the week:
+At the end of the week, answer in `PROGRESS.md`:
 
-- What works now that did not work before?
+- What works now that didn't before?
 - Which acceptance criteria pass?
 - What is still broken or unclear?
 - Is the next milestone still safe to start?
 - Does the timeline need to move?
 
-### Recovery capacity
+**Recovery capacity.** The buffer day is for debugging, illness, busy periods, and review. Consolidation weeks are not invitations to add features; they protect the plan from predictable overruns. If the buffer is consumed two weeks in a row, cut scope the following week. If a milestone stays blocked after two focused sessions, stop adding code and diagnose the blocker.
 
-The roadmap includes a weekly buffer day and explicit consolidation weeks. The buffer is for debugging, illness, busy periods, and review. Consolidation weeks are not invitations to add new features; they protect the plan from predictable overruns.
+## 5. Starting or resuming a milestone
 
-If the buffer is consumed for two consecutive weeks, reduce scope in the next week. If the same milestone remains blocked after two focused sessions, stop adding code and diagnose the blocker.
+1. **Read only what you need.** The current milestone and its predecessor — not the whole roadmap.
+2. **Write a tiny spec.** Inputs and outputs, required behavior, one normal case, two failure or edge cases, and what is explicitly out of scope.
+3. **Establish a baseline.** Build and run the current code before editing. If it already fails, record that failure first.
+4. **Implement the smallest vertical slice.** One end-to-end behavior. No broad abstractions until a second use case proves the need.
+5. **Test the invariants.** Cover success and failure. Memory-owning code: lifetime and exceptions. Processes: exit status and cleanup. Terminals: resize and restoration. HTTP: fragmentation, framing, and resource limits.
+6. **Review the design.** Who owns each resource? What happens on failure? What bounds memory, time, and queued work? What assumptions does the API make? What test would falsify your understanding?
+7. **Commit and record.** Acceptance criteria pass → commit and mark the milestone done. Otherwise mark it active or blocked and write the next concrete action.
 
----
+## 6. Working with a C++ coach
 
-## 5. How to start or resume any milestone
+Provide enough evidence to make the session efficient:
 
-Use this procedure each time:
+- Milestone ID and intended behavior
+- Relevant code or a minimal reproduction
+- Compiler and version
+- Exact build/test command
+- Full error output, not just the last line
+- Expected vs actual behavior
+- What you already tried
 
-### Step 1 — Read only the relevant section
+Ask for review in this order: correctness and undefined behavior → ownership, lifetime, and error paths → tests and missing edge cases → API and architecture → performance, only where relevant.
 
-Read the current milestone and its immediate predecessor. Do not reread the entire roadmap unless dependencies are unclear.
+**Hint ladder.** Escalate one step at a time; don't jump to a full solution before trying to identify the invariant yourself.
 
-### Step 2 — Write a tiny specification
+1. **Nudge** — point to the concept or invariant that is probably wrong.
+2. **Diagnostic** — propose a tiny test or experiment.
+3. **Focused explanation** — explain the relevant C++ or systems concept.
+4. **Patch review** — inspect your attempted fix.
+5. **Worked example** — a minimal example, if you are still blocked.
 
-Record: - Input and output. - The behavior required. - One normal case. - Two failure or edge cases. - What is explicitly out of scope.
+Staying stuck is not the goal; learning is.
 
-### Step 3 — Establish a baseline
-
-Build and run the current code before editing. If it already fails, record the failure first.
-
-### Step 4 — Implement the smallest vertical slice
-
-Make one end-to-end behavior work. Avoid broad abstractions until a second use case demonstrates the need.
-
-### Step 5 — Test the invariants
-
-Test both successful behavior and failure cases. For memory-owning code, think about lifetime and exceptions. For processes, think about exit status and cleanup. For terminals, think about resize and restoration. For HTTP, think about fragmentation, malformed framing, and resource limits.
-
-### Step 6 — Review the design
-
-Ask: - Who owns each resource? - What happens on failure? - What is the bound on memory/time/queued work? - What assumptions does the API make? - What test would falsify my understanding?
-
-### Step 7 — Commit and record
-
-If acceptance criteria pass, commit and mark the milestone done. Otherwise, mark it active or blocked and write the next concrete action.
-
----
-
-## 6. How to work with the C++ coach
-
-When requesting help, provide enough evidence to make the session efficient.
-
-### For an implementation review
-
-Send: - The milestone ID and intended behavior. - Relevant code files or a minimal reproduction. - Compiler and version. - Exact build/test command. - Full error output, not just the final line. - Expected versus actual behavior. - What you already tried.
-
-Ask for a review in this order: 1. Correctness and undefined behavior. 2. Ownership, lifetime, and error paths. 3. Tests and missing edge cases. 4. API and architecture. 5. Performance, only where relevant.
-
-### Hint ladder
-
-Use hints in this order to preserve learning:
-
-1.  **Nudge:** point to the concept or invariant that is probably wrong. 2.  **Diagnostic:** propose a tiny test or experiment. 3.  **Focused explanation:** explain the relevant C++ or systems
-    concept.
-4.  **Patch review:** inspect your attempted fix. 5.  **Worked example:** provide a minimal example if you remain blocked.
-
-Do not insist on solving every problem unaided. The goal is to learn, not to maximize time spent stuck. But avoid pasting a full solution before you have tried to identify the invariant or reproduce the bug.
-
-### Useful request template
+**Request template**
 
 ```text
 Milestone: M08 — Vector<T> v0
@@ -200,170 +124,58 @@ What I tried:
 Please start with a hint and a diagnostic test, not a full rewrite.
 ```
 
----
-
 ## 7. Recovery protocols
 
-### A. Missed one to three days
+**A. Missed 1–3 days.** Resume from `PROGRESS.md`: run the last known-good build and tests, then take the smallest next action. Don't redo completed work.
 
-- Resume from `PROGRESS.md`.
-- Run the last known-good build and tests.
-- Do not redo completed work.
-- Continue with the smallest next action.
+**B. Missed a week or more.** Re-entry session: read `PROGRESS.md` and the current milestone, run the build and tests, inspect the last few commits, fix one small issue or add one clarifying test, then update the next action. Context feels rusty; nothing is actually lost.
 
-### B. Missed a week or more
+**C. A milestone overruns its week.** Decide whether the cause is missing knowledge, an oversized spec, a bug, or the environment. Split the remaining work into a smaller vertical slice, keep completed behavior and tests, and use the buffer/recovery week. If two focused sessions still leave it blocked, request a review with logs and a minimal reproduction. Move the calendar target rather than bypassing acceptance criteria.
 
-Use a re-entry session: 1. Read `PROGRESS.md` and the current milestone. 2. Run the build and tests. 3. Inspect the last few commits. 4. Fix one small issue or add one clarifying test. 5. Update the next action.
+**D. The project feels too large.** Reduce to the minimum useful release: single-threaded HTTP before a worker pool, one layout primitive before a widget system, compile/link targets before advanced dependency discovery, a basic hash table before custom allocators. Move the rest to the backlog.
 
-Do not restart the project just because the context feels rusty.
+**E. A `tinycore` component is eating time.** Compare the remaining work against the concept it teaches. Stop adding features once the learning outcome and tests are achieved, use the standard library in the product, record the component's limitations, and move on.
 
-### C. A milestone exceeds its target week
+**F. A major design is wrong.** Stop feature work. Create a small reproduction or failing test. Identify the violated invariant. Write the smallest correction. Refactor in small commits, re-running tests after each. Don't rewrite a working project from scratch unless incremental repair is clearly more expensive.
 
-1.  Identify whether the problem is missing knowledge, an oversized
-    specification, a bug, or an environment issue.
-2.  Split the remaining work into a smaller vertical slice. 3.  Keep completed behavior and tests. 4.  Use the buffer/recovery week. 5.  If still blocked after two focused sessions, ask for a review with
-    logs and a minimal reproduction.
-6.  Move the calendar target if needed; do not bypass acceptance
-    criteria.
+**G. Toolchain or environment failure.** Record the exact command and full output. Check compiler version, build configuration, environment variables, and dependencies. Reproduce with a minimal program. Separate toolchain failure from application failure. Keep a last-known-good commit. Don't change several packages, flags, and code paths at once — that destroys diagnostic information.
 
-### D. The project feels too large
+**H. Illness, family, or prolonged interruption.** Pause the schedule without accumulating "repayment hours." Return via the one-week re-entry in B. Extend the end date if needed. The plan is subordinate to health.
 
-Reduce it to the minimum useful release. Examples: - Single-threaded HTTP server before a worker pool. - One layout primitive before a complete widget system. - Compile/link targets before advanced dependency discovery. - Basic hash table before custom allocators and tree containers.
+## 8. When a milestone is done
 
-Keep the extension as a backlog item rather than letting it block the milestone.
+A milestone is done only when its acceptance criteria pass **and** the "Before marking complete" items in the [checklist](checklist.md) are ticked with evidence. For higher-risk components, add the relevant sanitizer, fuzz, concurrency, security, or load tests — but don't apply every category to a trivial early milestone.
 
-### E. A custom `tinycore` component is consuming too much time
+## 9. Backlog rule (`BACKLOG.md`)
 
-- Compare its remaining work with the concept it is meant to teach.
-- Stop adding features once the target learning outcome and tests are
-  achieved.
-- Use the standard library in the product.
-- Record the component’s limitations and continue.
-- Revisit it only if a later project creates a concrete requirement.
+Keep attractive-but-optional work in `BACKLOG.md`, not in the active milestone. Each item states: what problem it solves, which milestone it depends on, what evidence would justify doing it, and a rough effort estimate. Promote an item only when the intended product needs it or the learning return clearly outweighs its cost.
 
-### F. A major design is wrong
+## 10. End-of-phase reviews
 
-- Stop feature work.
-- Create a small reproduction or failing test.
-- Identify the violated invariant.
-- Write down the smallest correction.
-- Refactor in small commits.
-- Re-run tests after each meaningful change.
+At the end of Weeks 4, 8, 12, 16, 20, 24, 28, 32, 36, and 40:
 
-Do not rewrite a working project from scratch unless you can identify why incremental repair is more expensive.
+1. List completed milestones and their verified commits.
+2. List known bugs and limitations.
+3. Confirm the next phase's prerequisites work.
+4. Identify schedule drift and its cause.
+5. Cut next-phase scope if real weekly capacity is below plan.
+6. Pick one workflow improvement — exactly one.
 
-### G. Environment or toolchain failure
+If you consistently complete less than 70% of planned work for three weeks, lower the planned scope or hours. Never the rest day.
 
-- Record the exact command and full output.
-- Check compiler version, build configuration, environment variables,
-  and dependencies.
-- Reproduce with a minimal program.
-- Separate toolchain failure from application failure.
-- Keep a last-known-good build or commit.
+## 11. Final release criteria
 
-Do not change several system packages, compiler flags, and code paths simultaneously; that destroys diagnostic information.
+The plan is complete when:
 
-### H. Illness, family needs, or prolonged interruption
+- `tinycore` has tests, documented limitations, and benchmark evidence for its components.
+- `forge` compiles and links multi-file projects, tracks dependencies, builds incrementally, and handles failure.
+- `termkit` provides a documented reusable API with input, layout, widget, rendering, and cleanup tests.
+- `httpkit` has a scoped HTTP/1.1 implementation with bounded resources, protocol tests, concurrency and shutdown behavior, and documented security limitations.
+- The integrated developer console shows the libraries working together.
+- A clean checkout builds and tests everything with documented commands.
 
-Pause the schedule without accumulating “repayment hours.” When returning, use the one-week re-entry procedure. Extend the end date if required. The project plan is subordinate to health and real-life constraints.
+40 weeks is a planning baseline, not proof that a server is production-ready. If a correctness or safety gate is incomplete, publish a smaller honest release and keep hardening it.
 
 ---
 
-## 8. Definition of done
-
-A milestone is done only when its stated acceptance criteria pass. Use the following general checklist in addition to the milestone-specific criteria:
-
-- [ ] The intended behavior is implemented.
-- [ ] The code builds with the project’s normal compiler settings.
-- [ ] At least one normal case and relevant edge/failure cases are
-  tested.
-- [ ] Resource ownership and cleanup are understood.
-- [ ] Errors are actionable rather than silently ignored.
-- [ ] The public interface is no larger than necessary.
-- [ ] Known limitations are written down.
-- [ ] The next milestone’s prerequisite is satisfied.
-- [ ] The result is committed and `PROGRESS.md` is updated.
-
-For higher-risk components, add the relevant sanitizer, fuzz, concurrency, security, or load tests. Do not apply every test category indiscriminately to a trivial early milestone.
-
----
-
-## 9. Engineering-specific checklists
-
-### Memory-owning types (`String`, `Vector`, pointers)
-
-- Are constructed objects distinguished from allocated storage?
-- Is every object destroyed exactly once?
-- Are copy and move operations correct?
-- What happens if allocation or construction throws?
-- Are invalidated references/iterators documented?
-- Do tests cover empty, boundary, and growth cases?
-
-### Build CLI (`forge`)
-
-- Are arguments passed without unsafe shell concatenation?
-- Are child processes reaped?
-- Are exit statuses and diagnostics preserved?
-- Are paths and relative-path rules consistent?
-- Can stale outputs or deleted dependencies be detected?
-- Is concurrency bounded and cancellation tested?
-
-### TUI (`termkit`)
-
-- Is terminal state restored after normal exit and failure?
-- Are partial input sequences handled?
-- Does resize stay within buffer bounds?
-- Are output queues bounded?
-- Can rendering and widget logic be tested without a real terminal?
-- Are terminal/Unicode limitations documented?
-
-### HTTP server (`httpkit`)
-
-- Are parser inputs incremental and bounded?
-- Are `Content-Length` and transfer framing validated consistently?
-- Are malformed and conflicting messages rejected safely?
-- Are sockets, requests, and responses owned unambiguously?
-- Are connection count, header/body sizes, queues, and timeouts bounded?
-- Does overload have a defined behavior?
-- Is shutdown tested with idle, slow, and disconnected clients?
-- Is TLS delegated to a maintained implementation?
-
----
-
-## 10. Scope control and optional quests
-
-Keep a `BACKLOG.md` for attractive but nonessential work. Every backlog item should state: - What problem it solves. - Which milestone it depends on. - What evidence would justify doing it. - A rough effort estimate.
-
-Examples to defer until core releases are stable: - Balanced trees and a complete STL-style iterator model. - Custom allocator framework and lock-free data structures. - Full C++ parser for `srcscope`. - Remote caching or complex cross-compilation in `forge`. - Full Unicode grapheme handling and a Windows terminal backend. - HTTP/2, HTTP/3, WebSockets, and compression.
-
-Only promote an item into the active plan if it is necessary for the intended product or offers a clear learning return that outweighs its cost.
-
----
-
-## 11. End-of-phase reviews
-
-At the end of Weeks 4, 8, 12, 16, 20, 24, 28, 32, 36, and 40, run a short review:
-
-1.  List completed milestones and their verified commits. 2.  List known bugs and limitations. 3.  Confirm that the next phase’s prerequisites work. 4.  Identify schedule drift and why it happened. 5.  Reduce the next phase’s scope if actual weekly capacity is lower
-    than planned.
-6.  Choose one improvement to the workflow, not ten.
-
-If you are consistently completing less than 70% of planned work for three weeks, lower the planned scope or weekly hours. Do not respond by eliminating the rest day or increasing pressure.
-
----
-
-## 12. Final release criteria
-
-The plan is complete when: - `tinycore` has tests, documented limitations, and benchmark evidence for its learning components. - `forge` can compile/link multi-file projects, track dependencies, perform incremental builds, and handle failure. - `termkit` provides a documented reusable API with input, layout, widgets, rendering, and cleanup tests. - `httpkit` has a clearly scoped HTTP/1.1 implementation, bounded resources, protocol tests, concurrency/shutdown behavior, and documented security limitations. - The integrated developer console demonstrates the libraries working together. - A clean checkout can build and test using documented commands.
-
-A 40-week target is a planning baseline, not evidence that a server is production-ready. If a critical safety or correctness gate remains incomplete, publish a smaller honest release and continue hardening it.
-
----
-
-## 13. First action
-
-Begin with **Week 1, Milestone 01: Argument Inspector**.
-
-Your first session should do only this: 1. Create the repository and a minimal CMake project. 2. Write `main` to print `argc`, each argument, and the current working directory. 3. Compile and run it with zero, one, and several arguments. 4. Commit the working version. 5. Add the next action to `PROGRESS.md`.
-
-Do not implement `Vector`, design the full repository, or start a second product before this first milestone is complete.
+**Start here:** [Roadmap — Week 1, Milestone 01: Argument Inspector](Roadmap.md#week-1--milestone-01-argument-inspector)
