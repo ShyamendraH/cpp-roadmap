@@ -6,30 +6,20 @@ Companion to the [Roadmap](Roadmap.md) and [Operation Manual](operation_manual.m
 
 `[ ]` not yet verified · `[x]` verified
 
-## 1. Setup (once)
+## 1. Starter setup (once)
 
-### Repository and workflow
+The repository ships the CMake project, warnings, CTest wiring, and `.gitignore`. Confirm each works; exact commands are in the [operation manual](operation_manual.md), §3.
 
-- [ ] Create the repository with the planned monorepo structure.
-- [ ] Add the roadmap, operation manual, checklist, README, and progress template.
-- [ ] Initialize Git and make the initial commit.
+- [ ] Confirm CMake 3.20+ and a C++20 compiler are installed.
+- [ ] Build the skeleton from a clean build directory and run the tests.
+- [ ] Deliberately break the program (for example, `return 1;` from `main`) and confirm CTest reports a failure. Revert.
+- [ ] Configure a Debug build and a Release build.
+- [ ] Configure a sanitizer build (`-DENABLE_SANITIZERS=ON`) and run the tests.
+- [ ] Confirm Git is installed and configured.
+- [ ] Confirm `.gitignore` keeps `build/` and generated binaries out of version control.
 - [ ] Create `PROGRESS.md` from [`PROGRESS.template.md`](PROGRESS.template.md), and `BACKLOG.md`.
-- [ ] Add a `.gitignore` for build directories, generated binaries, IDE files, and temporary output.
 - [ ] Decide on naming and formatting conventions.
 - [ ] Record the current milestone, target outcome, and next action in `PROGRESS.md`.
-
-### Toolchain
-
-- [ ] Confirm the compiler supports the required C++20 features.
-- [ ] Confirm CMake is installed and working.
-- [ ] Confirm CTest runs a trivial test.
-- [ ] Confirm Git is installed and configured.
-- [ ] Compile a minimal program from the command line.
-- [ ] Build a minimal CMake project.
-- [ ] Enable useful compiler warnings.
-- [ ] Switch between Debug and Release builds successfully.
-- [ ] Build from a clean build directory.
-- [ ] Record the exact build and test commands in the README.
 
 ## 2. Every milestone
 

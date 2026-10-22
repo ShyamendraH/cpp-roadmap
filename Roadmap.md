@@ -27,7 +27,7 @@ Three rules keep the schedule honest:
 
 ## 2. Repository layout
 
-One monorepo keeps tests, examples, and integration work simple. Each product must also build independently.
+One monorepo keeps tests, examples, and integration work simple. Each product must also build independently. Only `srcscope/` exists at the start; every other component is added in its phase, together with its `add_subdirectory()` line.
 
 ```text
 cpp-systems/
@@ -102,8 +102,8 @@ These apply to every phase:
 
 ## Week 4 — Milestones 05–06: Tests, CMake, and Consolidation
 
-- **Build:** repeatable tests, a clean CMake configuration, compiler warnings, a README, and reliable build/test commands.
-- **Learn:** test structure, build configuration, warning hygiene.
+- **Build:** real tests for the Phase I behavior, warnings resolved, and a documented one-command build/test flow. The skeleton already ships the CMake, CTest, and warning plumbing.
+- **Learn:** test structure, warning hygiene, telling a real failure from a configuration mistake.
 - **Done when:** one command configures and builds, one command runs the tests, a failing test makes the test command fail, and a clean checkout builds using the documented steps.
 
 **Consolidation week.** If earlier work is late, finish it here. If on schedule, improve the tests and debug one deliberately introduced bug.

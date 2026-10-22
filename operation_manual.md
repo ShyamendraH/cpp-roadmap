@@ -29,7 +29,101 @@ Copy [`PROGRESS.template.md`](PROGRESS.template.md) to the repository root and u
 - Keep build directories and local secrets out of version control.
 - Record the compiler version and build commands in the README.
 
-## 3. The work session
+## 3. Build and test commands
+
+The repository ships a working skeleton: a root `CMakeLists.txt`, the `srcscope/` component, warnings enabled, and CTest wired up. You add code; the plumbing already works.
+
+**Prerequisites (once):** CMake 3.20 or newer and a C++20 compiler (GCC or Clang). Verify with `cmake --version` and `g++ --version` (or `clang++ --version`).
+
+Run all commands from the repository root:
+
+| Task | Command |
+|:-----|:--------|
+| Configure | `cmake -S . -B build` |
+| Build | `cmake --build build` |
+| Test | `ctest --test-dir build --output-on-failure` |
+| Run `srcscope` | `./build/bin/srcscope` |
+
+**Build types.** Debug is the default. For a release build, use a separate directory:
+
+```bash
+cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release
+cmake --build build-release
+ctest --test-dir build-release --output-on-failure
+```
+
+**Sanitizers.** Build with AddressSanitizer and UndefinedBehaviorSanitizer when debugging memory errors or undefined behavior:
+
+```bash
+cmake -S . -B build-asan -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITIZERS=ON
+cmake --build build-asan
+ctest --test-dir build-asan --output-on-failure
+```
+
+**Clean rebuild.** Before marking any milestone complete, prove the project builds from nothing:
+
+```bash
+rm -rf build
+cmake -S . -B build
+cmake --build build
+ctest --test-dir build --output-on-failure
+```
+
+These four steps are the definition of "it builds" for every milestone.
+
+### Where things live
+
+```text
+CMakeLists.txt    build entry point; each component gets one add_subdirectory() line
+srcscope/         the Phase I component (src/ and tests/)
+build*/           configure and build output — never commit it
+```
+
+### Adding a component
+
+When a phase starts, create its directory (for example `tinycore/`) with this shape:
+
+```text
+tinycore/
+├── CMakeLists.txt
+├── include/tinycore/   # public headers
+├── src/                # implementation
+└── tests/
+```
+
+Its `CMakeLists.txt`:
+
+```cmake
+add_library(tinycore
+    src/string.cpp)
+
+target_include_directories(tinycore PUBLIC include)
+
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
+```
+
+Then uncomment or add the matching line in the root `CMakeLists.txt`:
+
+```cmake
+add_subdirectory(tinycore)
+```
+
+### Adding a test
+
+Register tests in the component's `tests/CMakeLists.txt`. A test executable exits non-zero on failure; plain `assert` (or a tiny check helper) is enough until a milestone calls for a framework like GoogleTest:
+
+```cmake
+add_executable(srcscope_tests
+    counting_test.cpp)
+
+add_test(NAME srcscope_tests COMMAND srcscope_tests)
+```
+
+`srcscope/tests/CMakeLists.txt` already registers one smoke test: it fails if the program cannot build or exits non-zero. Extend it as behavior arrives.
+
+## 4. The work session
 
 A default 2–3 hour session (shorten it on busy days):
 
@@ -55,7 +149,7 @@ Continuity is the win; a short session does not need to produce a feature.
 
 **Busy days:** with less than 20 minutes available, skip the session. Don't turn the next day into a double shift — use the buffer day and continue normally.
 
-## 4. The weekly rhythm
+## 5. The weekly rhythm
 
 At the start of the week:
 
@@ -75,7 +169,7 @@ At the end of the week, answer in `PROGRESS.md`:
 
 **Recovery capacity.** The buffer day is for debugging, illness, busy periods, and review. Consolidation weeks are not invitations to add features; they protect the plan from predictable overruns. If the buffer is consumed two weeks in a row, cut scope the following week. If a milestone stays blocked after two focused sessions, stop adding code and diagnose the blocker.
 
-## 5. Starting or resuming a milestone
+## 6. Starting or resuming a milestone
 
 1. **Read only what you need.** The current milestone and its predecessor — not the whole roadmap.
 2. **Write a tiny spec.** Inputs and outputs, required behavior, one normal case, two failure or edge cases, and what is explicitly out of scope.
@@ -85,7 +179,7 @@ At the end of the week, answer in `PROGRESS.md`:
 6. **Review the design.** Who owns each resource? What happens on failure? What bounds memory, time, and queued work? What assumptions does the API make? What test would falsify your understanding?
 7. **Commit and record.** Acceptance criteria pass → commit and mark the milestone done. Otherwise mark it active or blocked and write the next concrete action.
 
-## 6. Working with a C++ coach
+## 7. Working with a C++ coach
 
 Provide enough evidence to make the session efficient:
 
@@ -124,7 +218,7 @@ What I tried:
 Please start with a hint and a diagnostic test, not a full rewrite.
 ```
 
-## 7. Recovery protocols
+## 8. Recovery protocols
 
 **A. Missed 1–3 days.** Resume from `PROGRESS.md`: run the last known-good build and tests, then take the smallest next action. Don't redo completed work.
 
@@ -142,15 +236,15 @@ Please start with a hint and a diagnostic test, not a full rewrite.
 
 **H. Illness, family, or prolonged interruption.** Pause the schedule without accumulating "repayment hours." Return via the one-week re-entry in B. Extend the end date if needed. The plan is subordinate to health.
 
-## 8. When a milestone is done
+## 9. When a milestone is done
 
 A milestone is done only when its acceptance criteria pass **and** the "Before marking complete" items in the [checklist](checklist.md) are ticked with evidence. For higher-risk components, add the relevant sanitizer, fuzz, concurrency, security, or load tests — but don't apply every category to a trivial early milestone.
 
-## 9. Backlog rule (`BACKLOG.md`)
+## 10. Backlog rule (`BACKLOG.md`)
 
 Keep attractive-but-optional work in `BACKLOG.md`, not in the active milestone. Each item states: what problem it solves, which milestone it depends on, what evidence would justify doing it, and a rough effort estimate. Promote an item only when the intended product needs it or the learning return clearly outweighs its cost.
 
-## 10. End-of-phase reviews
+## 11. End-of-phase reviews
 
 At the end of Weeks 4, 8, 12, 16, 20, 24, 28, 32, 36, and 40:
 
@@ -163,7 +257,7 @@ At the end of Weeks 4, 8, 12, 16, 20, 24, 28, 32, 36, and 40:
 
 If you consistently complete less than 70% of planned work for three weeks, lower the planned scope or hours. Never the rest day.
 
-## 11. Final release criteria
+## 12. Final release criteria
 
 The plan is complete when:
 

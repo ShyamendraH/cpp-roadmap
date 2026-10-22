@@ -28,6 +28,19 @@ Every milestone produces a working result with explicit acceptance criteria, so 
 5. Tick [checklist](checklist.md) items only when you can point to evidence.
 6. End every session by recording the next action in `PROGRESS.md`.
 
+## Build and test
+
+Requires CMake 3.20+ and a C++20 compiler. Run from the repo root:
+
+```bash
+cmake -S . -B build
+cmake --build build
+ctest --test-dir build --output-on-failure
+./build/bin/srcscope
+```
+
+The skeleton builds and the smoke test passes out of the box. The [operation manual](operation_manual.md) covers Debug/Release builds, sanitizers, and how to add components and tests.
+
 ## Scope
 
 - **Timeline:** 40 weeks — 5 focused sessions + 1 buffer day + 1 rest day per week (about 10–15 focused hours).

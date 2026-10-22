@@ -1,0 +1,13 @@
+# Build output
+build/
+build-*/
+
+# CMake and tooling artifacts
+compile_commands.json
+.cache/
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.swp
+*~
