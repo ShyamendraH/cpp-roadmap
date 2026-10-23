@@ -8,7 +8,7 @@ Companion to the [Roadmap](Roadmap.md) and [Operation Manual](operation_manual.m
 
 ## 1. Starter setup (once)
 
-The repository ships the CMake project, warnings, CTest wiring, and `.gitignore`. Confirm each works; exact commands are in the [operation manual](operation_manual.md), §3.
+The repository ships the CMake project, warnings, CTest wiring, and `.gitignore`. [START.md](START.md) walks these checks as your day 1; this section is where the evidence gets ticked. Exact commands: [guides/build.md](guides/build.md).
 
 - [ ] Confirm CMake 3.20+ and a C++20 compiler are installed.
 - [ ] Build the skeleton from a clean build directory and run the tests.

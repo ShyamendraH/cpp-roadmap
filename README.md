@@ -1,61 +1,66 @@
 # C++ Systems Builder
 
-A 40-week plan to rebuild C++ fluency by building real systems:
+A guided C++ playground. The build system, a component, and tests already work — you learn C++ by building real systems, one small milestone at a time.
 
-- **`tinycore`** — low-level components you implement yourself to learn what the standard library does
-- **`srcscope`** — a source-inspection CLI (Phase I warm-up)
-- **`forge`** — a C/C++ build CLI
-- **`termkit`** — a reusable terminal UI (TUI) library
-- **`httpkit`** — a reusable HTTP/1.1 server library
+**Who this is for:** you can read basic C++ (variables, loops, functions), but CMake, tests, and project structure feel like a black box. No prior CMake or testing experience needed — the guides below explain all of it.
 
-Every milestone produces a working result with explicit acceptance criteria, so progress is verifiable rather than assumed.
+**The one rule:** follow [START.md](START.md) in order. It tells you what to do *and* what you do **not** need to read yet. Don't skip to the other files.
 
-## Documentation
+## What you actually get
 
-| Document | Purpose |
-|----------|---------|
-| [Roadmap](Roadmap.md) | The 40-week plan: 46 milestones with deliverables and acceptance criteria |
-| [Operation Manual](operation_manual.md) | Session workflow, progress tracking, and recovery procedures |
-| [Checklist](checklist.md) | Verification ledger and definition of done |
-| [Progress template](PROGRESS.template.md) | Starter file: copy to `PROGRESS.md` and track your own progress |
+- A **working playground** — `srcscope/` builds, one test passes, nothing is set up by hand
+- A **plan** — [Roadmap.md](Roadmap.md): 46 milestones over 40 weeks; you follow one at a time
+- A **way of working** — build → test → log → commit, so every session leaves a working state
 
-## How to use this repository
+## The lay of the land
 
-1. Skim the [roadmap](Roadmap.md) once to see the sequence.
-2. Copy [`PROGRESS.template.md`](PROGRESS.template.md) to `PROGRESS.md` at the repo root.
-3. Start with [Week 1, Milestone 01](Roadmap.md#week-1--milestone-01-argument-inspector).
-4. Work one milestone at a time: meet its acceptance criteria, then commit.
-5. Tick [checklist](checklist.md) items only when you can point to evidence.
-6. End every session by recording the next action in `PROGRESS.md`.
+| File | Job | When you need it |
+|:-----|:----|:-----------------|
+| [START.md](START.md) | Day-1 path: tools → first build → first test → first log entry | **Now** |
+| [Roadmap.md](Roadmap.md) | The 40-week plan of milestones with acceptance criteria | One milestone at a time |
+| [guides/tour.md](guides/tour.md) | Every file and CMake line, explained in plain words | The first time a CMake file confuses you |
+| [guides/build.md](guides/build.md) | How building / testing actually works, debug & peek under the hood | When commands feel like magic |
+| [guides/tests.md](guides/tests.md) | How tests are wired and how to write your own safely | Milestone 01 onward (before Milestone 04) |
+| [guides/log.md](guides/log.md) | Exact rules for `PROGRESS.md` and `BACKLOG.md` | Every session's end |
+| [guides/lost.md](guides/lost.md) | Symptom → remedy map, git first aid | **The moment you feel lost** |
+| [operation_manual.md](operation_manual.md) | Session rhythm and recovery procedures | After your first session, then as needed |
+| [checklist.md](checklist.md) | Verification ledger ("tick only with evidence") | With each milestone |
+| [PROGRESS.template.md](PROGRESS.template.md) | Starter copy for your own `PROGRESS.md` | Day 1 (START.md step shows how) |
+| [BACKLOG.template.md](BACKLOG.template.md) | Starter copy for your own `BACKLOG.md` | First time a fun idea isn't for now |
+| `srcscope/` | The component you build in Phase I | Where your code goes |
 
-## Build and test
+Each guide starts with a "when to read this" line, so you never read something early by accident.
 
-Requires CMake 3.20+ and a C++20 compiler. Run from the repo root:
+## Returning to the repo (quick reference)
+
+Run from the repo root; details in [guides/build.md](guides/build.md):
 
 ```bash
-cmake -S . -B build
-cmake --build build
-ctest --test-dir build --output-on-failure
-./build/bin/srcscope
+cmake -S . -B build                                # configure (once, or after confusing things)
+cmake --build build                                # build
+ctest --test-dir build --output-on-failure         # test
+./build/bin/srcscope                               # run
 ```
 
-The skeleton builds and the smoke test passes out of the box. The [operation manual](operation_manual.md) covers Debug/Release builds, sanitizers, and how to add components and tests.
+New here? That block is explained in [START.md](START.md).
+
+## The loop you'll repeat for every milestone
+
+```text
+open PROGRESS.md → read the next action
+   → implement one small behavior        (srcscope/src, srcscope/tests)
+   → build and test until green
+   → tick checklist.md items with evidence
+   → commit
+   → write the next action in PROGRESS.md
+```
+
+Never leave the repo not building, and never leave a session without a written next action. That is 80% of finishing a 40-week plan.
 
 ## Scope
 
-- **Timeline:** 40 weeks — 5 focused sessions + 1 buffer day + 1 rest day per week (about 10–15 focused hours).
-- **Language:** C++20 with GCC or Clang.
-- **Platform:** Linux/POSIX first; portability is a later extension.
-- **Build and test:** CMake and CTest.
-
-The 40-week schedule is a planning baseline, not a deadline. If a milestone slips, reduce scope and move the end date — never skip acceptance criteria.
-
-## First milestone
-
-Build the **Argument Inspector**: print `argc`, every argument, and the current working directory. Compile it, run it with zero and several arguments, commit, and write the next action in `PROGRESS.md`.
-
-Don't build the standard library or design future projects yet. Get one working slice done, verify it, and move on.
+C++20 · GCC or Clang · Linux/POSIX first · CMake + CTest. The 40 weeks are a planning baseline, not a deadline: if a milestone slips, reduce scope and move the date — never skip acceptance criteria.
 
 ---
 
-**Start here:** [Roadmap — Week 1, Milestone 01: Argument Inspector](Roadmap.md#week-1--milestone-01-argument-inspector)
+**Start here:** [START.md](START.md) · **Lost:** [guides/lost.md](guides/lost.md)

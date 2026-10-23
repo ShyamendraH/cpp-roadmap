@@ -2,7 +2,7 @@
 
 Copy this file to `PROGRESS.md` at the repository root and update it at the end of every session. Keep it current enough that returning after a week away needs no re-reading of chats.
 
-Milestone-specific evidence lives here; the [checklist](checklist.md) stays reusable.
+Field-by-field rules and filled examples: [guides/log.md](guides/log.md). Milestone-specific evidence lives here; the [checklist](checklist.md) stays reusable.
 
 ## Current state
 

@@ -2,7 +2,7 @@
 
 A 40-week plan of **46 milestones** across six phases. Every milestone states what to build, what to learn, and how to know it is done.
 
-Read this file once end to end. After that, read only the phase you are working in.
+**How to use this file:** do *not* read it straight through when starting. (1) First do [START.md](START.md) — day 1, tools to first green test. (2) Work one milestone at a time and read only your current phase — everything else waits. (3) Treat the "Done when" lines as contracts; if a milestone slips, adjust scope — never skip criteria ([operation_manual.md §8](operation_manual.md)).
 
 **Baseline:** C++20 · GCC or Clang · Linux/POSIX · CMake + CTest
 
@@ -102,7 +102,7 @@ These apply to every phase:
 
 ## Week 4 — Milestones 05–06: Tests, CMake, and Consolidation
 
-- **Build:** real tests for the Phase I behavior, warnings resolved, and a documented one-command build/test flow. The skeleton already ships the CMake, CTest, and warning plumbing.
+- **Build:** real tests for the Phase I behavior, warnings resolved, and a documented one-command build/test flow. The skeleton already ships the CMake, CTest, and warning plumbing. How tests become real: [guides/tests.md](guides/tests.md).
 - **Learn:** test structure, warning hygiene, telling a real failure from a configuration mistake.
 - **Done when:** one command configures and builds, one command runs the tests, a failing test makes the test command fail, and a clean checkout builds using the documented steps.
 
@@ -115,6 +115,8 @@ These apply to every phase:
 **Goal:** implement the containers you use every day — once — so ownership and lifetime stop being abstract. Product code returns to the standard library afterwards.
 
 ## Week 5 — Milestone 07: `tinycore::String` v0
+
+*(First component directory — create it with [guides/tour.md §Recipe A](guides/tour.md).)*
 
 - **Build:** an owning byte string with construction, destruction, size, and basic access.
 - **Learn:** RAII, raw storage, object lifetime, null termination.

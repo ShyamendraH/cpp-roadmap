@@ -1,10 +1,11 @@
 # Operation Manual
 
-How to run sessions, track progress, and recover when the plan and reality disagree. Read it once before Week 1, then return to it whenever something breaks down.
+How to run sessions, keep the weekly rhythm, and recover when the plan and reality disagree. Skim it once **after** your first session ([START.md](START.md)), then return whenever something breaks down. This file stays about *how you work*; tool commands live in the guides.
 
-- Plan and milestones: [Roadmap](Roadmap.md)
-- Verification ledger: [Checklist](checklist.md)
-- Rolling state: `PROGRESS.md` (copy [`PROGRESS.template.md`](PROGRESS.template.md))
+- Day-1 path: [START.md](START.md) — the one file a newcomer follows first
+- Guides: [tour](guides/tour.md) (what every file is) · [build](guides/build.md) (commands, debugging) · [tests](guides/tests.md) · [log](guides/log.md) (progress discipline) · [lost](guides/lost.md) (when confused)
+- Plan and milestones: [Roadmap](Roadmap.md) — verification ledger: [Checklist](checklist.md)
+- Rolling state: `PROGRESS.md` (copy [`PROGRESS.template.md`](PROGRESS.template.md)); ideas: `BACKLOG.md` (copy [`BACKLOG.template.md`](BACKLOG.template.md))
 
 ---
 
@@ -19,7 +20,7 @@ How to run sessions, track progress, and recover when the plan and reality disag
 
 ## 2. Progress record: `PROGRESS.md`
 
-Copy [`PROGRESS.template.md`](PROGRESS.template.md) to the repository root and update it at the end of every session. It holds three things: your current state, a session log, and one record per milestone. It is the only file you must read when returning after time away.
+Copy [`PROGRESS.template.md`](PROGRESS.template.md) to the repository root and update it at the end of every session. It holds three things: your current state, a session log, and one record per milestone. It is the only file you must read when returning after time away. Field-by-field rules, filled examples, and the `BACKLOG.md` parking lot: [guides/log.md](guides/log.md).
 
 **Git checkpoints**
 
@@ -31,97 +32,15 @@ Copy [`PROGRESS.template.md`](PROGRESS.template.md) to the repository root and u
 
 ## 3. Build and test commands
 
-The repository ships a working skeleton: a root `CMakeLists.txt`, the `srcscope/` component, warnings enabled, and CTest wired up. You add code; the plumbing already works.
+Run all commands from the repository root. The complete reference — the configure/build/test pipeline, what lives in the build directory, build types, sanitizers, under-the-hood inspection, and debugging — is [guides/build.md](guides/build.md). Day one is walked through in [START.md](START.md).
 
-**Prerequisites (once):** CMake 3.20 or newer and a C++20 compiler (GCC or Clang). Verify with `cmake --version` and `g++ --version` (or `clang++ --version`).
+One definition stands above everything: **"it builds" means a clean rebuild.** Wipe the build directory, configure, build, test — all green ([guides/build.md §clean rebuild](guides/build.md)).
 
-Run all commands from the repository root:
+### Structure changes
 
-| Task | Command |
-|:-----|:--------|
-| Configure | `cmake -S . -B build` |
-| Build | `cmake --build build` |
-| Test | `ctest --test-dir build --output-on-failure` |
-| Run `srcscope` | `./build/bin/srcscope` |
-
-**Build types.** Debug is the default. For a release build, use a separate directory:
-
-```bash
-cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release
-cmake --build build-release
-ctest --test-dir build-release --output-on-failure
-```
-
-**Sanitizers.** Build with AddressSanitizer and UndefinedBehaviorSanitizer when debugging memory errors or undefined behavior:
-
-```bash
-cmake -S . -B build-asan -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITIZERS=ON
-cmake --build build-asan
-ctest --test-dir build-asan --output-on-failure
-```
-
-**Clean rebuild.** Before marking any milestone complete, prove the project builds from nothing:
-
-```bash
-rm -rf build
-cmake -S . -B build
-cmake --build build
-ctest --test-dir build --output-on-failure
-```
-
-These four steps are the definition of "it builds" for every milestone.
-
-### Where things live
-
-```text
-CMakeLists.txt    build entry point; each component gets one add_subdirectory() line
-srcscope/         the Phase I component (src/ and tests/)
-build*/           configure and build output — never commit it
-```
-
-### Adding a component
-
-When a phase starts, create its directory (for example `tinycore/`) with this shape:
-
-```text
-tinycore/
-├── CMakeLists.txt
-├── include/tinycore/   # public headers
-├── src/                # implementation
-└── tests/
-```
-
-Its `CMakeLists.txt`:
-
-```cmake
-add_library(tinycore
-    src/string.cpp)
-
-target_include_directories(tinycore PUBLIC include)
-
-if(BUILD_TESTING)
-    add_subdirectory(tests)
-endif()
-```
-
-Then uncomment or add the matching line in the root `CMakeLists.txt`:
-
-```cmake
-add_subdirectory(tinycore)
-```
-
-### Adding a test
-
-Register tests in the component's `tests/CMakeLists.txt`. A test executable exits non-zero on failure; plain `assert` (or a tiny check helper) is enough until a milestone calls for a framework like GoogleTest:
-
-```cmake
-add_executable(srcscope_tests
-    counting_test.cpp)
-
-add_test(NAME srcscope_tests COMMAND srcscope_tests)
-```
-
-`srcscope/tests/CMakeLists.txt` already registers one smoke test: it fails if the program cannot build or exits non-zero. Extend it as behavior arrives.
+- **Adding a component** (Week 5 and later phases): the exact directory shape, its `CMakeLists.txt`, and the `add_subdirectory` wire — [guides/tour.md §Recipes](guides/tour.md).
+- **Adding a test**: how a test comes into existence (three wires) and the assert-shape recipe — [guides/tests.md](guides/tests.md), recipes in [guides/tour.md](guides/tour.md).
+- **Anything looks wrong or unexplained**: [guides/lost.md](guides/lost.md) triages by symptom.
 
 ## 4. The work session
 
@@ -272,4 +191,4 @@ The plan is complete when:
 
 ---
 
-**Start here:** [Roadmap — Week 1, Milestone 01: Argument Inspector](Roadmap.md#week-1--milestone-01-argument-inspector)
+**Start here:** [START.md](START.md) · **Front door:** [README](README.md)
