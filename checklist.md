@@ -49,8 +49,9 @@ The repository ships the CMake project, warnings, CTest wiring, and `.gitignore`
 
 - [ ] Every acceptance criterion is met, or explicitly deferred with a reason.
 - [ ] The project builds from a clean build directory.
-- [ ] Relevant tests pass.
+- [ ] Relevant tests pass (the pre-complete checklist: [guides/testing.md Part S](guides/testing.md#part-s--checklists-and-quick-reference)).
 - [ ] At least one edge case or failure path is tested.
+- [ ] Each new test is independent and deterministic (passes alone, in any order, and on repeat runs).
 - [ ] Warnings introduced by the change are resolved or explained.
 - [ ] Resource ownership and cleanup are understood and documented.
 - [ ] Errors are actionable, not silently ignored.

@@ -3,7 +3,7 @@
 How to run sessions, keep the weekly rhythm, and recover when the plan and reality disagree. Skim it once **after** your first session ([START.md](START.md)), then return whenever something breaks down. This file stays about *how you work*; tool commands live in the guides.
 
 - Day-1 path: [START.md](START.md) — the one file a newcomer follows first
-- Guides: [tour](guides/tour.md) (what every file is) · [build](guides/build.md) (commands, debugging) · [tests](guides/tests.md) · [log](guides/log.md) (progress discipline) · [lost](guides/lost.md) (when confused)
+- Guides: [tour](guides/tour.md) (what every file is) · [build](guides/build.md) (commands, debugging) · [testing](guides/testing.md) · [log](guides/log.md) (progress discipline) · [lost](guides/lost.md) (when confused)
 - Plan and milestones: [Roadmap](Roadmap.md) — verification ledger: [Checklist](checklist.md)
 - Rolling state: `PROGRESS.md` (copy [`PROGRESS.template.md`](PROGRESS.template.md)); ideas: `BACKLOG.md` (copy [`BACKLOG.template.md`](BACKLOG.template.md))
 
@@ -39,7 +39,7 @@ One definition stands above everything: **"it builds" means a clean rebuild.** W
 ### Structure changes
 
 - **Adding a component** (Week 5 and later phases): the exact directory shape, its `CMakeLists.txt`, and the `add_subdirectory` wire — [guides/tour.md §Recipes](guides/tour.md).
-- **Adding a test**: how a test comes into existence (three wires) and the assert-shape recipe — [guides/tests.md](guides/tests.md), recipes in [guides/tour.md](guides/tour.md).
+- **Adding a test**: how a test comes into existence (three wires) and the walkthrough to your first one — [guides/testing.md](guides/testing.md), recipes in [guides/tour.md](guides/tour.md).
 - **Anything looks wrong or unexplained**: [guides/lost.md](guides/lost.md) triages by symptom.
 
 ## 4. The work session

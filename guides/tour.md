@@ -4,7 +4,7 @@ Read this once — the first time a CMake file or repo structure feels unexplain
 
 "You are here": [README](../README.md) → (day 1 done) → **tour**
 
-**This file's job:** decode the playground — every file's purpose, every CMake line's plain-English meaning, the vocabulary, and the recipes for growing the repo without breaking anything. How builds *execute* is [build.md](build.md); how tests *run* is [tests.md](tests.md).
+**This file's job:** decode the playground — every file's purpose, every CMake line's plain-English meaning, the vocabulary, and the recipes for growing the repo without breaking anything. How builds *execute* is [build.md](build.md); how tests *work and run* is [testing.md](testing.md).
 
 ---
 
@@ -14,14 +14,19 @@ Read this once — the first time a CMake file or repo structure feels unexplain
 Cpp-practice/
 ├── CMakeLists.txt            ← the master recipe (section 3)
 ├── srcscope/                 ← Phase I component — your playground target
-│   ├── CMakeLists.txt        ← recipe: how srcscope gets built (section 4)
-│   ├── src/main.cpp          ← the only C++ so far (section 5)
-│   └── tests/CMakeLists.txt  ← recipe: declares tests (section 6)
+│   ├── CMakeLists.txt        ← recipe: the logic library + the CLI (section 4)
+│   ├── src/
+│   │   ├── main.cpp          ← the CLI (section 5)
+│   │   ├── counting.hpp      ← the testable logic's promise (testing.md Part E)
+│   │   └── counting.cpp      ← ...and how it keeps it
+│   └── tests/
+│       ├── CMakeLists.txt    ← recipe: declares tests (section 6)
+│       └── counting_test.cpp ← the unit tests (testing.md Part E)
 ├── .gitignore                ← keeps build output out of git (section 7)
 ├── README.md                 ← the front door and file map
 ├── START.md                  ← day-1 walkthrough
 ├── Roadmap.md                ← the 40-week plan (46 milestones)
-├── guides/                   ← tour (this), build, tests, log, lost
+├── guides/                   ← tour (this), build, testing, log, lost
 ├── operation_manual.md       ← session rhythm & recovery procedures
 ├── checklist.md              ← verification ledger (tick with evidence)
 ├── PROGRESS.template.md      ← your session dashboard, starter copy
@@ -105,15 +110,29 @@ add_subdirectory(srcscope)
 ## 4. `srcscope/CMakeLists.txt` — a component recipe
 
 ```cmake
+# Testable logic lives in a library: main.cpp stays thin, and the
+# tests link the same code without inheriting main().
+add_library(srcscope_core
+    src/counting.cpp)
+
+# Headers live in src/ beside the sources. PUBLIC means the include
+# path reaches everything that links srcscope_core.
+target_include_directories(srcscope_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
 add_executable(srcscope
     src/main.cpp)
+
+target_link_libraries(srcscope PRIVATE srcscope_core)
 
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
 ```
 
-- `add_executable(srcscope src/main.cpp)` — "a program named `srcscope`, built from this source file". This is one **target**. Later, as more `.cpp` files appear, they join this list. If you remove a source file from that list, expect a *linker* error ("undefined reference to ...") rather than a compile error — see [build.md §under the hood](build.md) for why that distinction matters.
+- `add_library(srcscope_core src/counting.cpp)` — a second kind of target: **not runnable**, but linkable. The library is where shared logic lives so that `main.cpp` stays thin and the tests compile against the *same* code instead of a copy of it.
+- `target_include_directories(... PUBLIC .../src)` — where `#include "counting.hpp"` resolves from. **PUBLIC** = inherited: everything that links `srcscope_core` gets this include path automatically (main.cpp *and* the test file).
+- `add_executable(srcscope src/main.cpp)` — "a program named `srcscope`, built from this source file". One **target**. Later, as more `.cpp` files appear, they join the library instead; `main.cpp` keeps calling into it.
+- `target_link_libraries(srcscope PRIVATE srcscope_core)` — gives the CLI access to the library's code at link time (and, via PUBLIC, its include path at compile time). Drop that line or mistype the name and the *linker* complains — `undefined reference to ...` — rather than the compiler; why that distinction matters is in [build.md §under the hood](build.md).
 - `if(BUILD_TESTING)` — tests build only when testing is enabled (it's ON by default thanks to `include(CTest)`). Off, this whole branch is skipped: nice for packaging a shipped product without test code. Don't remove it — the guard is correct structure.
 
 Everything else (C++20, warnings, `build/bin` output) arrives from the root file by inheritance.
@@ -139,9 +158,9 @@ Line by line:
 | `#include <iostream>` | Brings in standard input/output (`std::cout`). The `<...>` form searches system headers. |
 | `int main(int, char**)` | The program's entry point. `int argc` = number of arguments, `char** argv` = them as strings. Here they're deliberately *unnamed* — valid C++, and it silences "unused parameter" warnings. Milestone 01 names them and uses them. |
 | `std::cout << ... << ...` | Stringing together output, one `<<` per piece. `\n` ends lines. |
-| `return 0` | "Success." Any non-zero code = failure. Tests read exactly this, which is the entire test verdict mechanism ([tests.md §what a test is](tests.md)). |
+| `return 0` | "Success." Any non-zero code = failure. Tests read exactly this, which is the entire test verdict mechanism ([testing.md §how C++ testing works](testing.md#part-b--how-c-testing-works)). |
 
-This file is the seed of everything Phase I builds. Progress guidelines: modify freely; `git restore` is always there (see [lost.md §git first aid](lost.md)).
+This file is the seed of everything Phase I builds. Counting logic does **not** live here — it lives beside it in `counting.hpp`/`counting.cpp` so tests can reach it without dragging `main()` along ([testing.md Part E](testing.md#part-e--your-first-test-from-absolute-zero) reads those files line by line). Progress guidelines: modify freely; `git restore` is always there (see [lost.md §git first aid](lost.md)).
 
 ---
 
@@ -150,11 +169,22 @@ This file is the seed of everything Phase I builds. Progress guidelines: modify 
 ```cmake
 # Smoke test: the CLI must build and exit cleanly.
 add_test(NAME srcscope_runs COMMAND srcscope)
+
+# Unit tests for the shared logic (srcscope_core).
+add_executable(srcscope_tests
+    counting_test.cpp)
+
+# The checks call count_lines(); linking the library also delivers its
+# public include path, so counting_test.cpp can #include "counting.hpp".
+target_link_libraries(srcscope_tests PRIVATE srcscope_core)
+
+add_test(NAME srcscope_counting COMMAND srcscope_tests)
 ```
 
 - `add_test(NAME ... COMMAND ...)` — registers a **test**: a name (must be unique) and a command to run. `COMMAND srcscope` refers to the *target* built above; CMake resolves it to the actual binary path, so it works on every machine.
+- `add_executable(srcscope_tests counting_test.cpp)` — the unit tests are a second program: it builds, it links the library, and it prints one line per check. Its exit code is its verdict.
 - Registered tests are collected into generated files (`CTestTestfile.cmake`) inside `build/`. When you run `ctest`, it reads those files, runs each command, and checks the exit code.
-- Testing conventions in this repo: name tests `srcscope_<behavior>` (`srcscope_runs`, then e.g. `srcscope_args`). Filters and details: [tests.md](tests.md).
+- Testing conventions in this repo: name tests `srcscope_<behavior>` (`srcscope_runs`, then e.g. `srcscope_args`), name test executables `<component>_tests`, and keep one behavior per test function. Filters and details: [testing.md §running tests](testing.md#part-h--running-tests-like-a-professional).
 
 ---
 
@@ -180,7 +210,7 @@ Anything listed never enters git. Consequence to remember: deleting `build/` is 
 | **CMakeLists.txt** | One recipe file per directory, read top to bottom. |
 | **Configure** | The first step: `cmake -S . -B build` reads recipes and writes the real build files into `build/`. |
 | **Build** | The second step: `cmake --build build` runs the compiler/linker via those generated files. |
-| **Target** | A named thing CMake can build — here, the program `srcscope`. |
+| **Target** | A named thing CMake can build — here: the library `srcscope_core` and the programs `srcscope` and `srcscope_tests`. |
 | **Source file** | The `.cpp` files a target is built from. |
 | **Build directory** (`build/`) | The scratch area for generated files and binaries. "Out-of-source": your source tree stays clean. |
 | **CTest** | The test runner: reads registered `add_test`s and reports pass/fail by exit code. |
@@ -227,31 +257,35 @@ add_subdirectory(tinycore)
 
 Three-part checklist for a new component: (1) recipe file, (2) `add_subdirectory` uncommented in root, (3) tests directory guarded by `BUILD_TESTING`. Verify with a build+test cycle before moving on.
 
-### Recipe B — a real (non-smoke) test, when the code grows one (due around Milestone 04)
+### Recipe B — a real (non-smoke) test, when the code grows one (done here; shape to copy)
 
-A test here is a tiny extra program: it runs checks and returns 0 only if they all hold (one failed `assert` → non-zero exit → ctest reports Failed):
+A test here is a tiny extra program: it runs checks and returns 0 only if they all hold (one failed check → nonzero exit → ctest reports Failed). This repo's suite uses an explicit `check()` helper rather than `<cassert>` — `assert()` vanishes in Release builds (`NDEBUG`), silently turning a test into a no-op — and the worked example is `srcscope/tests/counting_test.cpp` ([testing.md Part E](testing.md#part-e--your-first-test-from-absolute-zero)):
 
 ```cmake
 # in srcscope/tests/CMakeLists.txt
 add_executable(srcscope_tests
     counting_test.cpp)              # your test file, same directory
 
+target_link_libraries(srcscope_tests PRIVATE srcscope_core)   # tests consume the library too
+
 add_test(NAME srcscope_counting COMMAND srcscope_tests)
 ```
 
 ```cpp
 // counting_test.cpp (shape to copy, not code to paste blindly)
-#include <cassert>
-void test_counts_words() { /* arrange, act, assert: assert(...) */ }
+void check(bool condition, const char* expression, const char* file, int line);
+#define CHECK(condition) check((condition), #condition, __FILE__, __LINE__)
+
+void test_counts_words() { /* arrange, act, CHECK each expectation */ }
 int main() {
     test_counts_words();
     // one check-function per behavior — that's the taste
-    return 0;   // stays 0 until an assert fails → nonzero → ctest reports Failed
+    return failures == 0 ? 0 : 1;   // the exit code IS the verdict
 }
 ```
 
-The full doctrine — what to test, how to name, how to debug a failing test — lives in [tests.md](tests.md); the CMake side is exactly these two lines per test.
+The full doctrine — what to test, how to name, how to debug a failing test — lives in [testing.md](testing.md); the CMake side is the executable plus its link plus one `add_test` per test.
 
 ---
 
-· **Next reads:** [build.md](build.md) — what these commands do on disk · [tests.md](tests.md) — the test system · [lost.md](lost.md) — when something doesn't match this document
+· **Next reads:** [build.md](build.md) — what these commands do on disk · [testing.md](testing.md) — the test system · [lost.md](lost.md) — when something doesn't match this document

@@ -77,9 +77,15 @@ cmake --build build
 Expected (excerpt):
 
 ```text
+[ 16%] Building CXX object srcscope/CMakeFiles/srcscope_core.dir/src/counting.cpp.o
+[ 33%] Linking CXX static library libsrcscope_core.a
+[ 33%] Built target srcscope_core
 [ 50%] Building CXX object srcscope/CMakeFiles/srcscope.dir/src/main.cpp.o
-[100%] Linking CXX executable ../bin/srcscope
-[100%] Built target srcscope
+[ 66%] Linking CXX executable ../bin/srcscope
+[ 66%] Built target srcscope
+[ 83%] Building CXX object srcscope/tests/CMakeFiles/srcscope_tests.dir/counting_test.cpp.o
+[100%] Linking CXX executable ../../bin/srcscope_tests
+[100%] Built target srcscope_tests
 ```
 
 ### 3. Test — run the registered tests
@@ -93,10 +99,14 @@ Expected:
 ```text
 Test project <path>/build
     Start 1: srcscope_runs
-1/1 Test #1: srcscope_runs ....................   Passed    0.00 sec
+1/2 Test #1: srcscope_runs ....................   Passed    0.00 sec
+    Start 2: srcscope_counting
+2/2 Test #2: srcscope_counting ................   Passed    0.00 sec
 
-100% tests passed out of 1
+100% tests passed out of 2
 ```
+
+(What each test does — `srcscope_runs` the full CLI, `srcscope_counting` the counting logic — is [guides/testing.md](guides/testing.md); today they just need to be green.)
 
 ### 4. Run the program
 
@@ -121,7 +131,7 @@ A four-line ceremony: **configure → build → test → run**. That is the whol
 
 This is a playground: breaking things on purpose is *the* way to learn what each piece does. Git makes that safe.
 
-### 1. Look at the only source file
+### 1. Look at the program's source file
 
 ```bash
 cat srcscope/src/main.cpp
@@ -167,21 +177,27 @@ ctest --test-dir build --output-on-failure
 Expected:
 
 ```text
-1/1 Test #1: srcscope_runs ....................***Failed   0.00 sec
-        Start 1: srcscope_runs
-        ...
-exit code: 1
-...
+    Start 1: srcscope_runs
+1/2 Test #1: srcscope_runs ....................***Failed    0.00 sec
+srcscope skeleton: implement Milestone 01 (see Roadmap.md, Week 1).
+Build and test commands: see operation_manual.md, section 3.
+
+    Start 2: srcscope_counting
+2/2 Test #2: srcscope_counting ................   Passed    0.00 sec
+
+50% tests passed, 1 tests failed out of 2
+
 The following tests FAILED:
 	  1 - srcscope_runs (Failed)
 ```
 
-(The wording differs slightly between CTest versions; look for `Failed`, `exit code: 1`, and `0% tests passed`.)
+(The wording differs slightly between CTest versions; look for `Failed`, the printed program output, and `50% tests passed`.)
 
-Two facts worth having for the next 40 weeks:
+Three facts worth having for the next 40 weeks:
 
 1. A test here is just a program the test runner launches. **Exit code `0` = pass, anything else = fail.** That's the entire verdict mechanism.
 2. `--output-on-failure` prints what the failed program wrote, so you can see *why* it failed.
+3. `srcscope_counting` stayed green: each test covers a different behavior, so the failure is *localized* — you know what broke without opening a file.
 
 ❑ Ticks checklist.md section 1: "break the program and confirm CTest reports a failure".
 
@@ -288,7 +304,7 @@ Print them line by line with `std::cout`, exactly like the skeleton does.
 Not everything at once. The map in [README.md](README.md) says for each file *when* it's needed. Today, nothing more is required. First glances come at:
 
 - you touch the build for the second time → [guides/build.md](guides/build.md)
-- Milestone 04 (Week 4) arrives → [guides/tests.md](guides/tests.md) before it
+- Milestone 04 (Week 4) arrives → [guides/testing.md](guides/testing.md) before it
 - Week 5 adds the `tinycore/` directory → recipes in [guides/tour.md](guides/tour.md)
 - you end a session (2 min) → [guides/log.md](guides/log.md)
 - the weekly rhythm, sessions, recovery → [operation_manual.md](operation_manual.md), skim once this week

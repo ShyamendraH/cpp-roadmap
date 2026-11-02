@@ -167,7 +167,7 @@ In gdb:
 (gdb) quit                (y to confirm the stop)
 ```
 
-Rule of thumb: gdb when you need to *watch a value change*, printing + `assert` when you need to *prove a property* (the way of tests.md). Milestones will tell you which they want; the habit of one print-and-build instead of ten mystery rebuilds saves hours.
+Rule of thumb: gdb when you need to *watch a value change*, printing + a test check when you need to *prove a property* (the way of testing.md). Milestones will tell you which they want; the habit of one print-and-build instead of ten mystery rebuilds saves hours.
 
 ## 7. Clean rebuild — the "it builds" vetting ritual
 
@@ -184,4 +184,4 @@ Why the wipe: incremental builds are fast **because** state is left around; a cl
 
 ---
 
-· **Related:** [tour.md](tour.md) — what the recipe lines mean · [tests.md](tests.md) — the test side · [lost.md](lost.md) — when this breaks
+· **Related:** [tour.md](tour.md) — what the recipe lines mean · [testing.md](testing.md) — the test side · [lost.md](lost.md) — when this breaks

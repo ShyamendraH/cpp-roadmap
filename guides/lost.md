@@ -29,8 +29,8 @@ Open this file the moment anything is confusing. Nothing here is long. Find your
 | Weird cache / cache declared a different path (e.g. after moving the folder) | `rm -rf build && cmake -S . -B build` — the build dir is disposable by design |
 | Compiler error lines | Read the **first** error only; fix; rebuild. Cascade errors after it are usually echoes of the first one ([build.md §under the hood](build.md)). |
 | `undefined reference to ...` | **Link** error: a promise without a definition — usually a missing source file in `add_executable` ([tour.md §4](tour.md)) |
-| Test fails and you can't see why | Run it alone with output: `ctest --test-dir build -R <name> --output-on-failure` → [guides/tests.md](tests.md) |
-| "My test isn't running" | `ctest --test-dir build -N` — if absent, the `add_test` registration is missing ([tests.md §anatomy](tests.md)) |
+| Test fails and you can't see why | Run it alone with output: `ctest --test-dir build -R <name> --output-on-failure` → [testing.md Part O (troubleshooting)](testing.md#part-o--troubleshooting-encyclopedia) |
+| "My test isn't running" | `ctest --test-dir build -N` — if absent, the `add_test` registration is missing ([testing.md Part G](testing.md#part-g--cmake-integration-in-detail)) |
 | Everything sideways, diagnostics confused | **Nuclear-but-safe option:** `rm -rf build`, then the four "clean rebuild" commands ([build.md §clean rebuild](build.md)) |
 
 ## 3. Git first aid — the safety net, in escalation order
@@ -60,7 +60,7 @@ Rules so fear never shapes how you play:
 |:--------|:------|
 | A build recipe looks edited beyond recognition | `git diff CMakeLists.txt srcscope/` → restore what you didn't mean; structure intact? compare against [tour.md §3–6](tour.md) |
 | A doc link within the guides feels wrong | All guides' targets are listed in [README's map](../README.md); if a file is truly missing, it's a bug in this repo — fix the link to the right doc |
-| You suspect your work broke plumbing, and can't say what | `git status` + `git diff` to identify which of the three wires ([tests.md §anatomy](tests.md)) is touched; restore that file |
+| You suspect your work broke plumbing, and can't say what | `git status` + `git diff` to identify which of the three wires ([testing.md Part E §3](testing.md#part-e--your-first-test-from-absolute-zero)) is touched; restore that file |
 
 ## 5. "I'm stuck / demotivated / falling behind"
 
