@@ -8,7 +8,7 @@ A guided C++ playground. The build system, a component, and tests already work �
 
 ## What you actually get
 
-- A **working playground** — `srcscope/` builds, one test passes, nothing is set up by hand
+- A **working playground** — `srcscope/` builds, two tests pass, nothing is set up by hand
 - A **plan** — [Roadmap.md](Roadmap.md): 46 milestones over 40 weeks; you follow one at a time
 - A **way of working** — build → test → log → commit, so every session leaves a working state
 
@@ -20,7 +20,7 @@ A guided C++ playground. The build system, a component, and tests already work �
 | [Roadmap.md](Roadmap.md) | The 40-week plan of milestones with acceptance criteria | One milestone at a time |
 | [guides/tour.md](guides/tour.md) | Every file and CMake line, explained in plain words | The first time a CMake file confuses you |
 | [guides/build.md](guides/build.md) | How building / testing actually works, debug & peek under the hood | When commands feel like magic |
-| [guides/tests.md](guides/tests.md) | How tests are wired and how to write your own safely | Milestone 01 onward (before Milestone 04) |
+| [guides/testing.md](guides/testing.md) | Testing complete: what a test is, your first test, what to test, troubleshooting | Milestone 01 onward (before Milestone 04) |
 | [guides/log.md](guides/log.md) | The 2-minute log: `PROGRESS.md` + `BACKLOG.md` | End of every session |
 | [guides/lost.md](guides/lost.md) | Symptom → remedy map, git first aid | **The moment you feel lost** |
 | [operation_manual.md](operation_manual.md) | Session rhythm and recovery procedures | After your first session, then as needed |

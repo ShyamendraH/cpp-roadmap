@@ -102,7 +102,7 @@ These apply to every phase:
 
 ## Week 4 — Milestones 05–06: Tests, CMake, and Consolidation
 
-- **Build:** real tests for the Phase I behavior, warnings resolved, and a documented one-command build/test flow. The skeleton already ships the CMake, CTest, and warning plumbing. How tests become real: [guides/tests.md](guides/tests.md).
+- **Build:** real tests for the Phase I behavior, warnings resolved, and a documented one-command build/test flow. The skeleton already ships the CMake, CTest, and warning plumbing. How tests become real: [guides/testing.md](guides/testing.md).
 - **Learn:** test structure, warning hygiene, telling a real failure from a configuration mistake.
 - **Done when:** one command configures and builds, one command runs the tests, a failing test makes the test command fail, and a clean checkout builds using the documented steps.
 
